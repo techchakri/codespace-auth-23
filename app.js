@@ -8,6 +8,7 @@ const User = require("./model/user")
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
     res.send("<h1>Server is working...</h1>")
