@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const cookieParser = require("cookie-parser")
 const User = require("./model/user")
+const auth = require("./middleware/auth")
 
 
 const app = express()
@@ -89,7 +90,7 @@ app.post("/login", async (req, res) => {
 
         // cookie section
         const options = {
-            expires: new Date(Date.now() * 3 * 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true
         };
 
@@ -102,6 +103,15 @@ app.post("/login", async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+})
+
+app.get("/dashboard", auth, (req, res) => {
+    console.log(req.user)
+    res.send("Welcome to dashboard")
+})
+
+app.get("/settings", (req, res) => {
+    res.send("Here are your user settings")
 })
 
 module.exports = app
